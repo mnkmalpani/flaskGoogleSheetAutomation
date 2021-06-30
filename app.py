@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, render_template, request
 import sheets
 
 app = Flask(__name__)
+application = app
 
 amount = 0
 description = ""
@@ -52,4 +53,4 @@ def wrong_input():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    application.run(debug=True)
