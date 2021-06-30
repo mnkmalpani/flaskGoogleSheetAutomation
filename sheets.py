@@ -5,8 +5,14 @@ from datetime import datetime
 
 scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',"https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 
+calculation = {
+    "vouchers": 10,
+    "flights": 10,
+    "amazon": 5,
+    "flipkart": 3,
+}
 
-def call_sheets(user, description, amount, action, points):
+def call_sheets(user, description, amount, action, points, calculate):
     creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
 
     client = gspread.authorize(creds)
@@ -20,7 +26,7 @@ def call_sheets(user, description, amount, action, points):
     # col = sheet.col_values(3)  # Get a specific column
     # cell = sheet.cell(1, 2).value  # Get the value of a specific cell
     if action == "add":
-        points_computed = round(int(amount) * 0.333)
+        points_computed = round(((int(amount)/150)*5) * calculation[calculate])
         insertRow = [now, user, description, amount, action, points_computed]
     elif action == "sub":
         insertRow = [now, user, description, "N/A", action, int(points)]
